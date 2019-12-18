@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWToken", "JWToken.csproj", "{8DF5EE96-27D8-43A4-870B-9DBAB4C00554}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8DF5EE96-27D8-43A4-870B-9DBAB4C00554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF5EE96-27D8-43A4-870B-9DBAB4C00554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF5EE96-27D8-43A4-870B-9DBAB4C00554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF5EE96-27D8-43A4-870B-9DBAB4C00554}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AB0D7711-AD20-4EB4-9657-23549E6135A8}
+	EndGlobalSection
+EndGlobal
