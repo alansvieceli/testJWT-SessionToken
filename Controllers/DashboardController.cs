@@ -45,5 +45,22 @@ namespace JWToken.Controllers
             return new RedirectResult("~/Dashboard/NoPermission");
         }
 
+        public IActionResult NoPermission()
+        {
+            ViewBag.UserRole = GetRole();
+            return View("NoPermission");
+        }
+
+        private string GetRole()
+        {
+            if (this.HavePermission(Roles.DIRECTOR))
+                return " - DIRECTOR";
+            if (this.HavePermission(Roles.SUPERVISOR))
+                return " - SUPERVISOR";
+            if (this.HavePermission(Roles.ANALYST))
+                return " - ANALYST";
+            return null;
+        }
+
     }
 }
