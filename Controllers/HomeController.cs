@@ -6,32 +6,37 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using JWToken.Models;
+using Microsoft.AspNetCore.Http;
+using JWToken.Providers;
 
 namespace JWToken.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult LoginUser(User user)
         {
-            return View();
+            TokenProvider _tokenProvider = new TokenProvider();
+            //Authenticate user
+            var userToken = _tokenProvider.LoginUser(user.USERID.Trim(), user.PASSWORD.Trim());
+            if (userToken != null)
+            {
+                //Save token in session object
+                HttpContext.Session.SetString("JWToken", userToken);
+            }
+            return Redirect("~/Home/Index");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Logoff()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            HttpContext.Session.Clear();
+            return Redirect("~/Home/Index");
         }
+
     }
 }
