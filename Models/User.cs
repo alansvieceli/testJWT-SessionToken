@@ -16,6 +16,7 @@ namespace JWToken.Models
         public string PHONE { get; set; }
         public string ACCESS_LEVEL { get; set; }
         public string READ_ONLY { get; set; }
+        public string WRITE_ACCESS { get; set; }
 
     }
 }

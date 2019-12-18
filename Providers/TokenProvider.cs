@@ -1,4 +1,5 @@
-﻿using JWToken.Models;
+﻿using JWToken.CustomAttributes;
+using JWToken.Models;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections;
@@ -16,22 +17,10 @@ namespace JWToken.Providers
 
         private List<User> UserList = new List<User>
         {
-            new User { USERID = "jsmith@email.com", PASSWORD = "test",
-                       EMAILID = "jsmith@email.com", FIRST_NAME = "John",
-                       LAST_NAME = "Smith", PHONE = "356-735-2748",
-                       ACCESS_LEVEL = "Director", READ_ONLY = "true" },
-            new User { USERID = "srob@email.com", PASSWORD = "test",
-                       FIRST_NAME = "Steve", LAST_NAME = "Rob",
-                       EMAILID = "srob@email.com", PHONE = "567-479-8537",
-                       ACCESS_LEVEL = "Supervisor", READ_ONLY = "false" },
-            new User { USERID = "dwill@email.com", PASSWORD = "test",
-                       FIRST_NAME = "DJ", LAST_NAME = "Will",
-                       EMAILID = "dwill@email.com", PHONE = "599-306-6010",
-                       ACCESS_LEVEL = "Analyst", READ_ONLY = "false" },
-            new User { USERID = "JBlack@email.com", PASSWORD = "test",
-                       FIRST_NAME = "Joe", LAST_NAME = "Black",
-                       EMAILID = "JBlack@email.com", PHONE = "764-460-8610",
-                       ACCESS_LEVEL = "Analyst", READ_ONLY = "true" }
+            new User { USERID = "jsmith@email.com", PASSWORD = "test", EMAILID = "jsmith@email.com", FIRST_NAME = "John", LAST_NAME = "Smith", PHONE = "356-735-2748", ACCESS_LEVEL = Roles.DIRECTOR.ToString(), WRITE_ACCESS = "WRITE_ACCESS" },
+            new User { USERID = "srob@email.com", PASSWORD = "test", FIRST_NAME = "Steve", LAST_NAME = "Rob", EMAILID = "srob@email.com", PHONE = "567-479-8537", ACCESS_LEVEL = Roles.SUPERVISOR.ToString(), WRITE_ACCESS = "WRITE_ACCESS" },
+            new User { USERID = "dwill@email.com", PASSWORD = "test", FIRST_NAME = "DJ", LAST_NAME = "Will", EMAILID = "dwill@email.com", PHONE = "599-306-6010", ACCESS_LEVEL = Roles.ANALYST.ToString(), WRITE_ACCESS = "WRITE_ACCESS" },
+            new User { USERID = "JBlack@email.com", PASSWORD = "test", FIRST_NAME = "Joe", LAST_NAME = "Black", EMAILID = "JBlack@email.com", PHONE = "764-460-8610", ACCESS_LEVEL = Roles.ANALYST.ToString(), WRITE_ACCESS = "" }
         };
 
         public string LoginUser(string UserID, string Password)
@@ -76,16 +65,25 @@ namespace JWToken.Providers
         //In reality, User data comes from Database or other Data Source 
         private IEnumerable<Claim> GetUserClaims(User user)
         {
-            IEnumerable<Claim> claims = new Claim[]
-                    {
-                    new Claim(ClaimTypes.Name, user.FIRST_NAME + " " + user.LAST_NAME),
-                    new Claim("USERID", user.USERID),
-                    new Claim("EMAILID", user.EMAILID),
-                    new Claim("PHONE", user.PHONE),
-                    new Claim("ACCESS_LEVEL", user.ACCESS_LEVEL.ToUpper()),
-                    new Claim("READ_ONLY", user.READ_ONLY.ToUpper())
-                    };
-            return claims;
+            List<Claim> claims = new List<Claim>();
+            Claim _claim;
+            _claim = new Claim(ClaimTypes.Name, user.FIRST_NAME + " " + user.LAST_NAME);
+            claims.Add(_claim);
+            _claim = new Claim("USERID", user.USERID);
+            claims.Add(_claim);
+            _claim = new Claim("EMAILID", user.EMAILID);
+            claims.Add(_claim);
+            _claim = new Claim("PHONE", user.PHONE);
+            claims.Add(_claim);
+            _claim = new Claim(user.ACCESS_LEVEL, user.ACCESS_LEVEL);
+            claims.Add(_claim);
+
+            if (user.WRITE_ACCESS != "")
+            {
+                _claim = new Claim(user.WRITE_ACCESS, user.WRITE_ACCESS);
+                claims.Add(_claim);
+            }
+            return claims.AsEnumerable<Claim>();
         }
 
     }
